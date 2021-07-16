@@ -128,6 +128,11 @@ on property:sys.boot_completed=1
     write /sys/module/drm/parameters/vblankoffdelay -1
 
 on property:vendor.post_boot.parsed=1
+    # Setup runtime cpusets
+    write /dev/cpuset/top-app/cpus 0-7
+    write /dev/cpuset/background/cpus 0-1
+    write /dev/cpuset/system-background/cpus 0-3
+
     # Configure CPU governor ratelimits
     write /sys/devices/system/cpu/cpufreq/policy0/walt/up_rate_limit_us 500
     write /sys/devices/system/cpu/cpufreq/policy0/walt/down_rate_limit_us 20000
