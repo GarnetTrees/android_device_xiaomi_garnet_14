@@ -113,3 +113,9 @@ service vendor.sensors-hal-2-1-multihal /vendor/bin/hw/android.hardware.sensors@
 on property:sys.boot_completed=1
     # Only owner can acces this node
     chmod 440 /proc/net/unix
+
+    # IRQ Tuning
+    # IRQ 218: msm_drm0
+    # IRQ 209: kgsl_3d0_irq
+    write /proc/irq/209/smp_affinity_list 1
+    write /proc/irq/218/smp_affinity_list 2
