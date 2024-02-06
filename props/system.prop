@@ -10,3 +10,21 @@ persist.vendor.data.mode=concurrent
 ril.subscription.types=NV,RUIM
 ro.telephony.default_network=33,33
 telephony.lteOnCdmaDevice=1
+persist.sys.radio.force_lte_ca=true
+
+# Radio VoNR Calling
+persist.radio.is_vonr_enabled_0=true
+persist.radio.is_vonr_enabled_1=true
+persist.vendor.vonr_setting_support=1
+
+# OIS fix
+persist.camera.gyro.android=20
+persist.camera.HAL3.enabled=1
+persist.camera.is_type=4
+persist.camera.ois.enable=1
+persist.camera.ois.video=1
+persist.vendor.camera.ois.enable=1
+persist.vendor.camera.ois.video=1
+
+# System Server
+persist.arm64.memtag.system_server=off
