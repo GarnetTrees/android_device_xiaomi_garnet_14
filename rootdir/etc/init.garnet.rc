@@ -134,6 +134,7 @@ on property:vendor.post_boot.parsed=1
     write /dev/cpuset/system-background/cpus 0-3
 
     # configure input boost settings
+    write /proc/sys/walt/input_boost/input_boost_ms 200
     write /proc/sys/walt/input_boost/powerkey_input_boost_ms 500
 
     # Configure CPU governor ratelimits
