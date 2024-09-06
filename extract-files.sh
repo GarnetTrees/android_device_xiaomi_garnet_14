@@ -76,6 +76,9 @@ function blob_fixup() {
         vendor/etc/init/mi_ric.rc)
             sed -i s/seclabel\ u:r:mi_ric:s0//g "${2}"
             ;;
+        vendor/lib64/vendor.libdpmframework.so)
+            "${PATCHELF_0_17_2}" --add-needed "libhidlbase_shim.so" "${2}"
+            ;;
     esac
 }
 
