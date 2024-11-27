@@ -519,3 +519,9 @@ PRODUCT_PACKAGES += \
 
 # Vendor
 $(call inherit-product, vendor/xiaomi/garnet/garnet-vendor.mk)
+
+# Inherit BCR
+$(call inherit-product-if-exists, vendor/bcr/bcr.mk)
+
+# Viper
+$(call inherit-product-if-exists, packages/apps/ViPER4AndroidFX/config.mk)
