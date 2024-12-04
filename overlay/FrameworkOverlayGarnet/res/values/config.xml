@@ -972,7 +972,7 @@
          alpha compositing functionality in hardware.  If set, the window
          manager will disable alpha trasformation in animations where not
          strictly needed. -->
-    <bool name="config_sf_limitedAlpha">true</bool>
+    <bool name="config_sf_limitedAlpha">false</bool>
 
     <string-array name="configs_base">
         <!-- ART heap compaction for cached apps -->
