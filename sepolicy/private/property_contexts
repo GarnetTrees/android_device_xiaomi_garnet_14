@@ -1,2 +1,7 @@
 ro.camera.req.fmq.                  u:object_r:exported_default_prop:s0
 ro.camera.res.fmq.                  u:object_r:exported_default_prop:s0
+ro.hardware.chipname                u:object_r:exported_default_prop:s0
+ro.vendor.aware_available           u:object_r:exported_default_prop:s0
+ro.miui.cust_device                 u:object_r:exported_default_prop:s0
+persist.vendor.audio.dolbysurround.enable u:object_r:exported_default_prop:s0
+vendor.audio.usb_cctoggle           u:object_r:exported_default_prop:s0
