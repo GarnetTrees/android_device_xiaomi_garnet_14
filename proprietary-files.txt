@@ -1864,7 +1864,6 @@ vendor/lib64/qti.video.utils.videobufferlayout.so
 # Media (Dolby Audio) - from nuwa HyperOS 2.0.1.0.VMBEUXM
 vendor/bin/hw/vendor.dolby.hardware.dms@2.0-service|a3f593de5fa48113bdc07f9b9b013b333830425d|7324d7e47a8266502e99c1599635dc48feb25202
 vendor/bin/hw/vendor.dolby.media.c2@1.0-service|4a88666d7f072ce6ba4147198fe3aee1eebf1481
-vendor/etc/dolby/dax-default.xml|091dcfd86742a54c074993e33acae8146257c674
 vendor/etc/init/vendor.dolby.hardware.dms@2.0-service.rc|29296ebfe89b2697fec573be73cc3757fd97bed6
 vendor/etc/init/vendor.dolby.media.c2@1.0-service.rc|bc1e134139c7dd0e5b4f98952aa51c629ea66dc7
 vendor/lib64/libcodec2_soft_ac4dec.so|bc4d4a81c88d58b86d79f28405998a59e863493f
