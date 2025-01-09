@@ -1,0 +1,2 @@
+# Binder calls
+binder_call(system_app, hal_audio_default)
