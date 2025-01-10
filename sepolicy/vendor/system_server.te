@@ -1,0 +1,1 @@
+allow system_server audioserver_tmpfs:file { write };
