@@ -11,6 +11,6 @@
     "repository": "garnet-playground/android_hardware_xiaomi",
     "target_path": "hardware/xiaomi",
     "remote": "github-non-los",
-    "branch": "lineage-22"
+    "branch": "lineage-21"
   }
 ]
