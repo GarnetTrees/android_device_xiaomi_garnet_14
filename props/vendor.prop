@@ -56,6 +56,7 @@ ro.vendor.audio.voice.change.support=true
 ro.vendor.audio.us.proximity=true
 ro.config.media_vol_steps=150
 ro.config.media_vol_default=100
+use.voice.path.for.pcm.voip=true
 
 # Bluetooth
 bluetooth.profile.a2dp.source.enabled=true
