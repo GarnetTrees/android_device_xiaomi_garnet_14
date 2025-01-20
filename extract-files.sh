@@ -77,7 +77,7 @@ function blob_fixup() {
             [ "$2" = "" ] && return 0
             sed -i 's/on charger/on property:init.svc.vendor.charger=running/g' "${2}"
             ;;
-        vendor/etc/seccomp_policy/atfwd@2.0.policy | vendor/etc/seccomp_policy/wfdhdcphalservice.policy)
+        vendor/etc/seccomp_policy/atfwd@2.0.policy|vendor/etc/seccomp_policy/wfdhdcphalservice.policy|vendor/etc/seccomp_policy/sensors-qesdk.policy)
             grep -q "gettid: 1" "${2}" || { sed -i -e '$a\gettid: 1' "${2}"; }
             ;;
         vendor/etc/media_codecs_parrot_v0.xml)
