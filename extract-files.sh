@@ -77,17 +77,21 @@ function blob_fixup() {
             [ "$2" = "" ] && return 0
             sed -i 's/on charger/on property:init.svc.vendor.charger=running/g' "${2}"
             ;;
-        vendor/etc/vintf/manifest/c2_manifest_vendor.xml)
-            [ "$2" = "" ] && return 0
-            sed -ni '/dolby/!p' "${2}"
-            ;;
         vendor/etc/media_codecs_parrot_v0.xml)
             [ "$2" = "" ] && return 0
             sed -i -E '/media_codecs_(google_audio|google_c2|google_telephony|vendor_audio)/d' "${2}"
             ;;
+        vendor/lib64/hw/audio.primary.parrot.so)
+            [ "$2" = "" ] && return 0
+            "${PATCHELF}" --replace-needed "libstagefright_foundation.so" "libstagefright_foundation-v33.so" "${2}"
+            ;;     
         vendor/lib/vendor.libdpmframework.so|vendor/lib64/vendor.libdpmframework.so)
             [ "$2" = "" ] && return 0
             grep -q "libhidlbase_shim.so" "${2}" || "${PATCHELF}" --add-needed "libhidlbase_shim.so" "${2}"
+            ;;
+        vendor/lib/libstagefright_soft_ddpdec.so|vendor/lib/libstagefrightdolby.so|vendor/lib64/libdlbdsservice.so|vendor/lib64/libstagefright_soft_ddpdec.so|vendor/lib64/libstagefrightdolby.so)
+			[ "$2" = "" ] && return 0
+            grep -q "libstagefright_foundation-v33.so" "${2}" || "${PATCHELF}" --replace-needed "libstagefright_foundation.so" "libstagefright_foundation-v33.so" "${2}"
             ;;                      
         *)
             return 1
