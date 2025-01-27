@@ -5,4 +5,4 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/aosp_garnet.mk
+    $(LOCAL_DIR)/infinity_garnet.mk

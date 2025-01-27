@@ -10,7 +10,7 @@ BUILD_BROKEN_DUP_RULES := true
 BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
 
 # Inherit from proprietary files for miuicamera
--include vendor/xiaomi/garnet-miuicamera/products/board.mk
+-include device/xiaomi/miuicamera-garnet/BoardConfig.mk
 
 # A/B
 AB_OTA_UPDATER := true
@@ -73,7 +73,7 @@ DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := \
     $(DEVICE_PATH)/configs/hidl/device_framework_compatibility_matrix.xml \
     hardware/qcom-caf/common/vendor_framework_compatibility_matrix.xml \
     hardware/xiaomi/vintf/xiaomi_framework_compatibility_matrix.xml \
-    vendor/aosp/config/device_framework_matrix.xml
+    vendor/infinity/config/device_framework_matrix.xml
 
 DEVICE_MANIFEST_FILE := $(DEVICE_PATH)/configs/hidl/manifest.xml
 
@@ -179,7 +179,7 @@ TARGET_COPY_OUT_VENDOR_DLKM := vendor_dlkm
 TARGET_BOARD_PLATFORM := parrot
 
 # Power
-TARGET_POWERHAL_MODE_EXT := $(DEVICE_PATH)/power/power-mode.cpp
+TARGET_POWER_LIBPERFMGR_MODE_EXTENSION_LIB := //$(DEVICE_PATH):libperfmgr-ext-garnet
 
 # Recovery
 SOONG_CONFIG_NAMESPACES += ufsbsg
@@ -195,6 +195,7 @@ TARGET_USERIMAGES_USE_F2FS := true
 ENABLE_VENDOR_RIL_SERVICE := true
 
 # Sepolicy
+include device/lineage/sepolicy/libperfmgr/sepolicy.mk
 include device/qcom/sepolicy_vndr/SEPolicy.mk
 
 BOARD_VENDOR_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor
@@ -205,9 +206,10 @@ TARGET_ODM_PROP += $(DEVICE_PATH)/props/odm.prop
 TARGET_SYSTEM_PROP += $(DEVICE_PATH)/props/system.prop
 TARGET_SYSTEM_EXT_PROP += $(DEVICE_PATH)/props/system_ext.prop
 TARGET_VENDOR_PROP += $(DEVICE_PATH)/props/vendor.prop
+TARGET_SYSTEM_PROP += $(DEVICE_PATH)/props/phoneinfo.prop
 
 # Vendor security patch
-VENDOR_SECURITY_PATCH := 2024-12-01
+VENDOR_SECURITY_PATCH := 2025-01-01
 
 # Verified Boot
 BOARD_AVB_ENABLE := true

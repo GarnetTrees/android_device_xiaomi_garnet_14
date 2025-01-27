@@ -6,6 +6,7 @@
 
 #define LOG_TAG "UdfpsHandler.garnet"
 
+#include <aidl/android/hardware/biometrics/fingerprint/BnFingerprint.h>
 #include <android-base/logging.h>
 #include <android-base/unique_fd.h>
 
@@ -38,6 +39,8 @@
 #define DISP_FEATURE_PATH "/dev/mi_display/disp_feature"
 
 #define FOD_PRESS_STATUS_PATH "/sys/class/touch/touch_dev/fod_press_status"
+
+using ::aidl::android::hardware::biometrics::fingerprint::AcquiredInfo;
 
 namespace {
 
@@ -82,7 +85,7 @@ static disp_event_resp* parseDispEvent(int fd) {
 
 }  // anonymous namespace
 
-class XiaomiGarnetUdfpsHander : public UdfpsHandler {
+class XiaomiGarnetUdfpsHandler : public UdfpsHandler {
   public:
     void init(fingerprint_device_t* device) {
         mDevice = device;
@@ -182,7 +185,7 @@ class XiaomiGarnetUdfpsHander : public UdfpsHandler {
 
     void onAcquired(int32_t result, int32_t vendorCode) {
         LOG(INFO) << __func__ << " result: " << result << " vendorCode: " << vendorCode;
-        if (result == FINGERPRINT_ACQUIRED_GOOD) {
+        if (static_cast<AcquiredInfo>(result) == AcquiredInfo::GOOD) {
             setFingerDown(false);
         }
     }
@@ -224,7 +227,7 @@ class XiaomiGarnetUdfpsHander : public UdfpsHandler {
 };
 
 static UdfpsHandler* create() {
-    return new XiaomiGarnetUdfpsHander();
+    return new XiaomiGarnetUdfpsHandler();
 }
 
 static void destroy(UdfpsHandler* handler) {

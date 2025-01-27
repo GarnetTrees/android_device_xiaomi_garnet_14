@@ -1,5 +1,11 @@
-cc_library_headers {
-    name: "qti_sm7435_powerhal_headers",
-    vendor_available: true,
-    export_include_dirs: ["."],
+cc_library_static {
+    name: "libperfmgr-ext-garnet",
+    vendor: true,
+    srcs: [
+        "power-mode.cpp",
+    ],
+    shared_libs: [
+        "android.hardware.power-V5-ndk",
+        "libbase",
+    ],
 }
