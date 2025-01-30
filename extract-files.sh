@@ -60,51 +60,68 @@ if [ -z "${SRC}" ]; then
 fi
 
 function blob_fixup() {
+    [ "$2" = "" ] && return 0
     case "${1}" in
+        # Remove needed libraries
         system_ext/lib64/libwfdnative.so)
-            [ "$2" = "" ] && return 0
             "${PATCHELF}" --remove-needed "android.hidl.base@1.0.so" "${2}"
             ;;
+            
+        # Replace needed libraries
         system_ext/lib/libwfdservice.so | system_ext/lib64/libwfdservice.so)
-            [ "$2" = "" ] && return 0
             "${PATCHELF}" --replace-needed "android.media.audio.common.types-V2-cpp.so" "android.media.audio.common.types-V4-cpp.so" "${2}"
-            ;;    
-        vendor/bin/hw/android.hardware.security.keymint-service-qti|vendor/lib/libqtikeymint.so|vendor/lib64/libqtikeymint.so)
-            [ "$2" = "" ] && return 0
-            grep -q "android.hardware.security.rkp-V3-ndk.so" "${2}" || "${PATCHELF_0_17_2}" --add-needed "android.hardware.security.rkp-V3-ndk.so" "${2}"
             ;;
+            
+        vendor/lib64/hw/audio.primary.parrot.so)
+            "${PATCHELF}" --replace-needed "libstagefright_foundation.so" "libstagefright_foundation-v33.so" "${2}"
+            ;;
+            
+        vendor/lib/libstagefright_soft_ddpdec.so | vendor/lib/libstagefrightdolby.so | \
+        vendor/lib64/libdlbdsservice.so | vendor/lib64/libstagefright_soft_ddpdec.so | \
+        vendor/lib64/libstagefrightdolby.so)
+            grep -q "libstagefright_foundation-v33.so" "${2}" || \
+                "${PATCHELF}" --replace-needed "libstagefright_foundation.so" "libstagefright_foundation-v33.so" "${2}"
+            ;;
+            
+        # Add needed libraries
+        vendor/bin/hw/android.hardware.security.keymint-service-qti | \
+        vendor/lib/libqtikeymint.so | vendor/lib64/libqtikeymint.so)
+            grep -q "android.hardware.security.rkp-V3-ndk.so" "${2}" || \
+                "${PATCHELF_0_17_2}" --add-needed "android.hardware.security.rkp-V3-ndk.so" "${2}"
+            ;;
+            
+        vendor/lib/vendor.libdpmframework.so | vendor/lib64/vendor.libdpmframework.so)
+            grep -q "libhidlbase_shim.so" "${2}" || \
+                "${PATCHELF}" --add-needed "libhidlbase_shim.so" "${2}"
+            ;;
+            
+        # XML Fixes
         vendor/etc/camera/pureView_parameter.xml)
-            [ "$2" = "" ] && return 0
             sed -i 's/=\([0-9]\+\)>/="\1">/g' "${2}"
             ;;
-        vendor/etc/init/hw/init.batterysecret.rc|vendor/etc/init/hw/init.mi_thermald.rc|vendor/etc/init/hw/init.qti.kernel.rc)
-            [ "$2" = "" ] && return 0
-            sed -i 's/on charger/on property:init.svc.vendor.charger=running/g' "${2}"
-            ;;
-        vendor/etc/seccomp_policy/atfwd@2.0.policy|vendor/etc/seccomp_policy/wfdhdcphalservice.policy|vendor/etc/seccomp_policy/sensors-qesdk.policy)
-            grep -q "gettid: 1" "${2}" || { sed -i -e '$a\gettid: 1' "${2}"; }
-            ;;
+            
         vendor/etc/media_codecs_parrot_v0.xml)
-            [ "$2" = "" ] && return 0
             sed -i -E '/media_codecs_(google_audio|google_c2|google_telephony|vendor_audio)/d' "${2}"
             ;;
-        vendor/lib64/hw/audio.primary.parrot.so)
-            [ "$2" = "" ] && return 0
-            "${PATCHELF}" --replace-needed "libstagefright_foundation.so" "libstagefright_foundation-v33.so" "${2}"
-            ;;     
-        vendor/lib/vendor.libdpmframework.so|vendor/lib64/vendor.libdpmframework.so)
-            [ "$2" = "" ] && return 0
-            grep -q "libhidlbase_shim.so" "${2}" || "${PATCHELF}" --add-needed "libhidlbase_shim.so" "${2}"
+            
+        # RC File Fixes
+        vendor/etc/init/hw/init.batterysecret.rc | \
+        vendor/etc/init/hw/init.mi_thermald.rc | \
+        vendor/etc/init/hw/init.qti.kernel.rc)
+            sed -i 's/on charger/on property:init.svc.vendor.charger=running/g' "${2}"
             ;;
-        vendor/lib/libstagefright_soft_ddpdec.so|vendor/lib/libstagefrightdolby.so|vendor/lib64/libdlbdsservice.so|vendor/lib64/libstagefright_soft_ddpdec.so|vendor/lib64/libstagefrightdolby.so)
-			[ "$2" = "" ] && return 0
-            grep -q "libstagefright_foundation-v33.so" "${2}" || "${PATCHELF}" --replace-needed "libstagefright_foundation.so" "libstagefright_foundation-v33.so" "${2}"
-            ;;                      
+            
+        # Seccomp Policy Modifications
+        vendor/etc/seccomp_policy/atfwd@2.0.policy | \
+        vendor/etc/seccomp_policy/wfdhdcphalservice.policy | \
+        vendor/etc/seccomp_policy/sensors-qesdk.policy)
+            grep -q "gettid: 1" "${2}" || { sed -i -e '$a\gettid: 1' "${2}"; }
+            ;;
+            
         *)
             return 1
             ;;
     esac
-
     return 0
 }
 
