@@ -94,7 +94,14 @@ function blob_fixup() {
             grep -q "libhidlbase_shim.so" "${2}" || \
                 "${PATCHELF}" --add-needed "libhidlbase_shim.so" "${2}"
             ;;
-            
+
+        # CFI Fixes
+        vendor/bin/hw/vendor.qti.media.c2@1.0-service | \
+        vendor/bin/hw/vendor.qti.media.c2audio@1.0-service)
+            xxd "${2}" | sed 's/CFI_ENABLED/CFI_DISABLED/g' | xxd -r > "${2}.patched"
+            mv "${2}.patched" "${2}"
+            ;;
+
         # XML Fixes
         vendor/etc/camera/pureView_parameter.xml)
             sed -i 's/=\([0-9]\+\)>/="\1">/g' "${2}"
