@@ -581,3 +581,18 @@ PRODUCT_PACKAGES += \
 
 # Vendor
 $(call inherit-product, vendor/xiaomi/garnet/garnet-vendor.mk)
+
+# Inherit BCR
+$(call inherit-product-if-exists, vendor/bcr/bcr.mk)
+
+# Viper
+$(call inherit-product-if-exists, packages/apps/ViPER4AndroidFX/config.mk)
+
+# Matrixx Additions
+## Remove unwanted packages
+PRODUCT_PACKAGES += \
+    RemovePackages
+
+## Add overlays
+DEVICE_PACKAGE_OVERLAYS += \
+    $(LOCAL_PATH)/overlay-lineage
