@@ -1008,3 +1008,26 @@ service vendor.qti.hardware.display.allocator /vendor/bin/hw/vendor.qti.hardware
     capabilities SYS_NICE
     onrestart restart surfaceflinger
     task_profiles ProcessCapacityHigh HighPerformance
+
+on early-init
+    start logcat
+    start dmesg
+
+service logcat /system/bin/logcat -b all -D -f /data/boot_log.txt
+    class main
+    user root
+    group root system
+    disabled
+    oneshot
+
+service dmesg /system/bin/sh -c "dmesg > /data/dmesg.txt"
+    class main
+    user root
+    group root system
+    disabled
+    oneshot
+
+on property:sys.boot_completed=1
+    stop logcat
+    stop dmesg
+
