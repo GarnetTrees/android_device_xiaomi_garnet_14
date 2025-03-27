@@ -103,7 +103,6 @@ blob_fixups: blob_fixups_user_type = {
     'vendor/lib64/vendor.libdpmframework.so': blob_fixup()
         .add_needed('libhidlbase_shim.so'),
     ('vendor/lib64/libstagefright_soft_ddpdec.so', 'vendor/lib64/libdlbdsservice.so', 'vendor/lib64/libstagefright_soft_ac4dec.so', 'vendor/lib64/libstagefrightdolby.so'): blob_fixup()
-        .patchelf_version('0_17_2')
         .replace_needed('libstagefright_foundation.so', 'libstagefright_foundation-v33.so'),     
 }  # fmt: skip
 
