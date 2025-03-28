@@ -102,6 +102,8 @@ blob_fixups: blob_fixups_user_type = {
         .replace_needed('audio.primary.parrot.so', 'audio.primary.garnet.so'),         
     'vendor/lib64/vendor.libdpmframework.so': blob_fixup()
         .add_needed('libhidlbase_shim.so'),
+        'vendor/lib64/libqcodec2_core.so': blob_fixup()
+        .add_needed('libcodec2_shim.so'), 
     ('vendor/lib64/libstagefright_soft_ddpdec.so', 'vendor/lib64/libdlbdsservice.so', 'vendor/lib64/libstagefright_soft_ac4dec.so', 'vendor/lib64/libstagefrightdolby.so'): blob_fixup()
         .replace_needed('libstagefright_foundation.so', 'libstagefright_foundation-v33.so'),     
 }  # fmt: skip

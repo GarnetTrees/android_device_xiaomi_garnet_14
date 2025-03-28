@@ -456,6 +456,7 @@ PRODUCT_PACKAGES += \
 
 # Shims
 PRODUCT_PACKAGES += \
+    libcodec2_shim \
     libhidlbase_shim
 
 # Soong namespaces
